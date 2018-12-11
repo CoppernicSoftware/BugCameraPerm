@@ -22,6 +22,9 @@ private const val MY_PERMISSIONS_REQUEST_CAMERA = 0
 
 class HomeActivity : AppCompatActivity() {
 
+    //private val perm = Manifest.permission.CAMERA
+    private val perm = Manifest.permission.RECORD_AUDIO
+
     private val permissionListener = object : BasePermissionListener() {
         @SuppressLint("SetTextI18n")
         override fun onPermissionGranted(permissionGrantedResponse: PermissionGrantedResponse) {
@@ -57,7 +60,7 @@ class HomeActivity : AppCompatActivity() {
 
     private fun askingForPermissionDexter() {
         Dexter.withContext(this)
-                .withPermission(Manifest.permission.CAMERA)
+                .withPermission(perm)
                 .withListener(permissionListener)
                 .withErrorListener(errorListener)
                 .onSameThread()
@@ -68,14 +71,14 @@ class HomeActivity : AppCompatActivity() {
     private fun askingForPermissionAndroid() {
         // Permission is not granted
         // Should we show an explanation?
-        if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)) {
+        if (ActivityCompat.shouldShowRequestPermissionRationale(this, perm)) {
             // Show an explanation to the user *asynchronously* -- don't block
             // this thread waiting for the user's response! After the user
             // sees the explanation, try again to request the permission.
         } else {
             // No explanation needed, we can request the permission.
             ActivityCompat.requestPermissions(this,
-                    arrayOf(Manifest.permission.CAMERA),
+                    arrayOf(perm),
                     MY_PERMISSIONS_REQUEST_CAMERA)
 
             // MY_PERMISSIONS_REQUEST_CAMERA is an
@@ -85,11 +88,12 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun checkPermission(){
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+        if (ContextCompat.checkSelfPermission(this, perm)
+            /*checkCallingOrSelfPermission(perm)*/
                 != PackageManager.PERMISSION_GRANTED) {
-            log("Camera permission is not granted => KO, it shall be granted because this is a system app")
+            log("$perm permission is not granted => KO, it shall be granted because this is a system app")
         } else {
-            log("Camera permission is already granted => OK")
+            log("$perm permission is already granted => OK")
         }
     }
 
@@ -104,9 +108,9 @@ class HomeActivity : AppCompatActivity() {
             MY_PERMISSIONS_REQUEST_CAMERA -> {
                 // If request is cancelled, the result arrays are empty.
                 if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
-                    log("Camera permission is granted => OK")
+                    log("$perm permission is granted => OK")
                 } else {
-                    log("Camera permission is denied => :-(")
+                    log("$perm permission is denied => :-(")
                 }
                 return
             }
