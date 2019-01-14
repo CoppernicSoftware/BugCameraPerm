@@ -22,8 +22,8 @@ private const val MY_PERMISSIONS_REQUEST_CAMERA = 0
 
 class HomeActivity : AppCompatActivity() {
 
-    //private val perm = Manifest.permission.CAMERA
-    private val perm = Manifest.permission.RECORD_AUDIO
+    private val perm = Manifest.permission.CAMERA
+    //private val perm = Manifest.permission.RECORD_AUDIO
 
     private val permissionListener = object : BasePermissionListener() {
         @SuppressLint("SetTextI18n")
